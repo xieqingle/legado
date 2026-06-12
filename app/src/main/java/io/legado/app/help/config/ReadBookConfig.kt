@@ -531,7 +531,7 @@ object ReadBookConfig {
     data class Config(
         var name: String = "",
         var bgStr: String = "#EEEEEE",//白天背景
-        var bgStrNight: String = "#000000",//夜间背景
+        var bgStrNight: String = "#11161A",//夜间背景
         var bgStrEInk: String = "#FFFFFF",//EInk背景
         var bgAlpha: Int = 100,//背景透明度
         var bgType: Int = 0,//白天背景类型 0:颜色, 1:assets图片, 2其它图片
@@ -541,7 +541,7 @@ object ReadBookConfig {
         private var darkStatusIconNight: Boolean = false,//晚上是否暗色状态栏
         private var darkStatusIconEInk: Boolean = true,
         private var textColor: String = "#3E3D3B",//白天文字颜色
-        private var textColorNight: String = "#ADADAD",//夜间文字颜色
+        private var textColorNight: String = "#8B95A6",//夜间文字颜色
         private var textColorEInk: String = "#000000",
         private var pageAnim: Int = 0,//翻页动画
         private var pageAnimEInk: Int = 4,

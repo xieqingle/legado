@@ -113,4 +113,11 @@
     <color name="ate_navigation_drawer_selected_dark">#202020</color>
 
     <color name="book_ant_10">#141414</color>
+
+    <!--静谧夜空蓝灰 默认夜间主题色-->
+    <color name="night_primary">#11161A</color>
+    <color name="night_primary_dark">#0D1115</color>
+    <color name="night_accent">#4B7DAF</color>
+    <color name="night_background">#11161A</color>
+    <color name="night_bottom_background">#11161A</color>
 </resources>

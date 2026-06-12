@@ -19,6 +19,7 @@ import io.legado.app.utils.BitmapUtils
 import io.legado.app.utils.ColorUtils
 import io.legado.app.utils.FileUtils
 import io.legado.app.utils.GSON
+import io.legado.app.utils.defaultSharedPreferences
 import io.legado.app.utils.externalFiles
 import io.legado.app.utils.fromJsonArray
 import io.legado.app.utils.fromJsonObject
@@ -214,17 +215,17 @@ object ThemeConfig {
         val primary =
             context.getPrefInt(
                 PreferKey.cNPrimary,
-                context.getCompatColor(R.color.md_blue_grey_600)
+                context.getCompatColor(R.color.night_primary)
             )
         val accent =
             context.getPrefInt(
                 PreferKey.cNAccent,
-                context.getCompatColor(R.color.md_deep_orange_800)
+                context.getCompatColor(R.color.night_accent)
             )
         val background =
-            context.getPrefInt(PreferKey.cNBackground, context.getCompatColor(R.color.md_grey_900))
+            context.getPrefInt(PreferKey.cNBackground, context.getCompatColor(R.color.night_background))
         val bBackground =
-            context.getPrefInt(PreferKey.cNBBackground, context.getCompatColor(R.color.md_grey_850))
+            context.getPrefInt(PreferKey.cNBBackground, context.getCompatColor(R.color.night_bottom_background))
         val config = Config(
             themeName = name,
             isNightTheme = true,
@@ -240,6 +241,23 @@ object ThemeConfig {
      * 更新主题
      */
     fun applyTheme(context: Context) = with(context) {
+        // 一次性迁移：清除旧的夜间主题偏好，使用新的蓝灰默认值
+        if (!LocalConfig.nightThemeVersionIsLast) {
+            defaultSharedPreferences.edit().apply {
+                remove(PreferKey.cNPrimary)
+                remove(PreferKey.cNAccent)
+                remove(PreferKey.cNBackground)
+                remove(PreferKey.cNBBackground)
+                apply()
+            }
+            // 同步清除 ThemeStore 中缓存的旧值
+            ThemeStore.editTheme(context)
+                .primaryColor(getCompatColor(R.color.night_primary))
+                .accentColor(getCompatColor(R.color.night_accent))
+                .backgroundColor(getCompatColor(R.color.night_background))
+                .bottomBackground(getCompatColor(R.color.night_bottom_background))
+                .apply()
+        }
         when {
             AppConfig.isEInkMode -> {
                 ThemeStore.editTheme(this)
@@ -252,17 +270,17 @@ object ThemeConfig {
 
             AppConfig.isNightTheme -> {
                 val primary =
-                    getPrefInt(PreferKey.cNPrimary, getCompatColor(R.color.md_blue_grey_600))
+                    getPrefInt(PreferKey.cNPrimary, getCompatColor(R.color.night_primary))
                 val accent =
-                    getPrefInt(PreferKey.cNAccent, getCompatColor(R.color.md_deep_orange_800))
+                    getPrefInt(PreferKey.cNAccent, getCompatColor(R.color.night_accent))
                 var background =
-                    getPrefInt(PreferKey.cNBackground, getCompatColor(R.color.md_grey_900))
+                    getPrefInt(PreferKey.cNBackground, getCompatColor(R.color.night_background))
                 if (ColorUtils.isColorLight(background)) {
-                    background = getCompatColor(R.color.md_grey_900)
+                    background = getCompatColor(R.color.night_background)
                     putPrefInt(PreferKey.cNBackground, background)
                 }
                 val bBackground =
-                    getPrefInt(PreferKey.cNBBackground, getCompatColor(R.color.md_grey_850))
+                    getPrefInt(PreferKey.cNBBackground, getCompatColor(R.color.night_bottom_background))
                 ThemeStore.editTheme(this)
                     .primaryColor(ColorUtils.withAlpha(primary, 1f))
                     .accentColor(ColorUtils.withAlpha(accent, 1f))

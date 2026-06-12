@@ -16,12 +16,12 @@
     "bottomBackground": "#EEEEEE"
   },
   {
-    "themeName": "黑白",
+    "themeName": "夜空蓝灰",
     "isNightTheme": true,
-    "primaryColor": "#303030",
-    "accentColor": "#E0E0E0",
-    "backgroundColor": "#424242",
-    "bottomBackground": "#424242"
+    "primaryColor": "#11161A",
+    "accentColor": "#4B7DAF",
+    "backgroundColor": "#11161A",
+    "bottomBackground": "#11161A"
   },
   {
     "themeName": "A屏黑",
